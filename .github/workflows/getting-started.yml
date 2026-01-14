@@ -27,7 +27,7 @@ jobs:
       steps:
         - name: Generate string output
           id: set-output
-          run: echo "result=Hello from the output job!" >> $GITHUB_OUTPUT
+          run: echo "result=output from previous job " >> $GITHUB_OUTPUT
 
   matrix-job:
     needs: generate-output
