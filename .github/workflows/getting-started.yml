@@ -19,3 +19,22 @@ jobs:
     steps:
       - name: Run a one-line script
         run: echo ${{ secrets.PASSWORD }}
+
+  generate-output:
+      runs-on: ubuntu-latest
+      outputs:
+        output-string: ${{ steps.set-output.outputs.result }}
+      steps:
+        - name: Generate string output
+          id: set-output
+          run: echo "result=Hello from the output job!" >> $GITHUB_OUTPUT
+
+  matrix-job:
+    needs: generate-output
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        number: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    steps:
+      - name: Print output with number
+        run: echo "${{ needs.generate-output.outputs.output-string }}-${{ matrix.number }}"
